@@ -1,0 +1,21 @@
+version: '3'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181 #Port for Kafka to connect to Zookeeper
+      ZOOKEEPER_TICK_TIME: 2000  #Basic timing unit used by Zookeeper (heartbeat checks)
+    ports:
+      - "2181:2181" #Exposes Zookeeper on port 2181 to your local machine
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092" #Makes Kafka accessible on localhost:9092 (standard port for Kafka clients)
+    environment:
+      KAFKA_BROKER_ID: 1  #Unique ID for the Kafka broker (use different IDs for multiple brokers)
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181 #Tells Kafka where Zookeeper is (Docker uses the service name as hostname)
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092    #Tells Kafka how clients should connect
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
