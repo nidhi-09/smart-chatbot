@@ -1,1 +1,12 @@
-<p>chat works!</p>
+<div class="chat-box">
+  <h2>ChatBot 🤖</h2>
+
+  <p *ngIf="welcomeMessage">{{ welcomeMessage }}</p>
+
+  <input [(ngModel)]="userMessage" placeholder="Ask something..." />
+  <button (click)="sendMessage()">Send</button>
+
+  <div *ngIf="botReply">
+    <strong>Bot:</strong> {{ botReply }}
+  </div>
+</div>
